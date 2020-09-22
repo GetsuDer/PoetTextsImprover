@@ -14,9 +14,6 @@ all: improver
 improver: $(OBJECTDIR)main.o $(OBJECTDIR)input.o $(OBJECTDIR)sorting.o $(OBJECTDIR)parsing.o
 	$(CC) -o improver $^ $(CFLAGS)
 
-$(OBJECTDIR)main.o: $(SOURCEDIR)main.cpp ObjectDir
-	$(CC) -c -o $@ $< $(CFLAGS)
-
 $(OBJECTDIR)%.o: $(SOURCEDIR)%.cpp $(INCLUDEDIR)%.h ObjectDir
 	$(CC) -c -o $@ $< $(CFLAGS)
 
