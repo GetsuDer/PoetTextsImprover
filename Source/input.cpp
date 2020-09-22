@@ -52,7 +52,11 @@ read_data_from_file(int file_descriptor, char **data)
     return data_size;
 }
 
-
+//! \brief Write text into file in right order
+//! \param [in] file_descriptor File descriptor for output
+//! \param [in] order Pointer to sorted pointers to strings
+//! \param [in] strings_number Len of the order array
+//! \param [in] reversed Is true, if pointers in order point on the endings of the strings
 void
 write_data_to_file(int file_descriptor, char ** order, int strings_number, bool reversed)
 {

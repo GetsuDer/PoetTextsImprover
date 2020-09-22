@@ -1,9 +1,33 @@
 #include <cassert>
+#include <ctype.h>
+#include <cstdio>
 
 #include "../Include/parsing.h"
 
 
-//! \brief Splits the input buffer into strings by replacing \n on \0
+//! Symbols of punctuations, allowed in input text
+char punctuation[] = ".,:;\"'-? !()~<>*[]{}";
+
+
+//! Checks if the symbol is correct for text
+//! \param [in] c Checked symbol
+//! \return true, if the symbol is correct, false else.
+static bool
+good_symbol(char c)
+{
+    if (isalnum(c)) {
+        return true;
+    }
+    for (char * i = punctuation; *i; i++) {
+        if (*i == c) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+//! \brief Splits the input buffer into text strings by replacing \n on \0
 //! \param [in] data Buffer, in which strings are placed
 //! \return Returns the number of strings
 int
@@ -14,15 +38,16 @@ split_on_strings(char * data)
     int string_number = 0;
     data++;
     bool good_string = false;
+
     while (*data) {
-        if (*data == '\n') {
+        if (!good_symbol(*data)) {
             if (good_string) {
                 string_number++;
-                *data = '\0';
                 good_string = false;
             }
+            *data = '\0';
         } else {
-            good_string = true;
+            good_string |= isalpha(*data);
         }
         data++;
     }
@@ -70,8 +95,8 @@ make_pointer_tables(char * data, char ** on_beginnings, char ** on_ends, int dat
         return false;
     }
     
-    while (data_size && !*data) { //We suppose, that there is at least one not-\0 char in this fata
-        data++; //There could be \0 in beginning. And not only in beginning.
+    while (data_size && !*data) { //We suppose, that there is at least one not-\0 char in this data
+        data++; //There could be \0-s in beginning. And not only in beginning.
         data_size--;
     }
 
@@ -94,7 +119,7 @@ make_pointer_tables(char * data, char ** on_beginnings, char ** on_ends, int dat
         } else {
             if (!good_string) {
                 *on_beginnings = data;
-                good_string = true;
+                good_string |= isalpha(*data);
             }
         }
         data++;

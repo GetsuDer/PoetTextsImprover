@@ -4,9 +4,9 @@ SOURCEDIR = Source/
 OBJECTDIR = ObjectFiles/
 
 CC = g++
-CFLAGS = -Wall -Wextra -Wfloat-equal -std=c++14 -g  
+CFLAGS = -Wall -Wextra -Wfloat-equal -std=c++14 -g 
 
-.PHONY: all clean 
+.PHONY: all clean improver
 
 
 all: improver
@@ -23,5 +23,7 @@ $(OBJECTDIR)%.o: $(SOURCEDIR)%.cpp $(INCLUDEDIR)%.h ObjectDir
 ObjectDir:
 	mkdir -p ObjectFiles
 
+test: improver
+	cd Testing; ./test_prog; cd ..
 clean:
-	rm -rf *.o ObjectFiles
+	rm -rf *.o ObjectFiles improver

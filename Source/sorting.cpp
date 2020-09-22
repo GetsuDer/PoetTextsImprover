@@ -6,25 +6,27 @@
 
 //! \brief Moves pointer to the next alpha
 //! \param [in] str - String, pointer to which must be moved
-static void
+static char *
 next_alpha(char *str)
 {
     assert(str);
     while (*str && !isalpha(*str)) {
         str++;
     }
+    return str;
 }
 
 
 //!\brief Moves pointer to the previous alpha
 //! \param [in] str - String, pointer to which must be moved
-static void
+static char *
 previous_alpha(char *str)
 {
     assert(str);
     while (*str && !isalpha(*str)) {
        str--;
     }
+    return str;
 } 
 
 //! \brief Comparator for two strings from the beginning.
@@ -35,16 +37,21 @@ cmp(char * string1, char * string2)
 {
     assert(string1);
     assert(string2);
-    next_alpha(string1);
-    next_alpha(string2);
 
-    while (*string1 && *string2 && *string1 == *string2) {
+    string1 = next_alpha(string1);
+    string2 = next_alpha(string2);
+
+    while (*string1 && *string2 && tolower(*string1) == tolower(*string2)) {
         string1++;
-        next_alpha(string1);
+        string1 = next_alpha(string1);
 
         string2++;
-        next_alpha(string2);
+        string2 = next_alpha(string2);
     }
+
+    string1 = next_alpha(string1);
+    string2 = next_alpha(string2);
+
     if (!*string1 && !*string2) {
         return 0;
     }
@@ -55,7 +62,8 @@ cmp(char * string1, char * string2)
     if (!*string2) {
         return 1;
     }
-    return (*string1 < *string2) ? -1 : 1;
+    assert(isalpha(*string1) && isalpha(*string2));
+    return (tolower(*string1) < tolower(*string2)) ? -1 : 1;
 }
 
 //! \brief Comparator for two strings from the end
@@ -67,17 +75,20 @@ cmp_reversed(char *string1, char *string2)
     assert(string1);
     assert(string2);
 
-    previous_alpha(string1);
-    previous_alpha(string2);
+    string1 = previous_alpha(string1);
+    string2 = previous_alpha(string2);
 
-    while (*string1 && string2 && *string1 == *string2) {
+    while (*string1 && string2 && tolower(*string1) == tolower(*string2)) {
         string1--;
-        previous_alpha(string1);
+        string1 = previous_alpha(string1);
 
         string2--;
-        previous_alpha(string2);
+        string2 = previous_alpha(string2);
     }
-   if (!*string1 && !*string2) {
+    string1 = previous_alpha(string1);
+    string2 = previous_alpha(string2);
+
+    if (!*string1 && !*string2) {
         return 0;
     }
     if (!*string1) {
@@ -86,7 +97,7 @@ cmp_reversed(char *string1, char *string2)
     if (!*string2) {
         return 1;
     }
-    return (*string1 < *string2) ? -1 : 1;
+    return (tolower(*string1) < tolower(*string2)) ? -1 : 1;
 }
 
 //! \brief Sorts [first_elem, second_elem) interval of the input array

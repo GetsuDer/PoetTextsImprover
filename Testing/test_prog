@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+for file in *.test
+do
+    ./../improver $file $file.outtest
+
+    diff -E -Z -b -B $file.out $file.outtest > diffile
+
+    if [ -s diffile ]
+    then 
+        echo $file "Failed"
+        cp diffile $file.differences
+    else
+        echo $file "Success"
+    fi
+    rm diffile
+done
+
+
+

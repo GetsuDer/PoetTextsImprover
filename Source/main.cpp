@@ -6,27 +6,24 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
-#include <string.h>
+#include <ctype.h>
 
 #include "../Include/input.h"
 #include "../Include/sorting.h"
 #include "../Include/parsing.h"
+#include "../Include/main.h"
 
 int
-main()
+main(int argc, char **argv)
 {
-   
-// Read data from file   
-    fprintf(stdout, HELLO);    
-    char *file_name = (char *) calloc(1, PATH_MAX);
-    if (!file_name) {
-        fprintf(stderr, "main: Memory error\n");
+    if (argc < ARGNUM) {
+        fprintf(stderr, "No input or output file\n");
         return 1;
     }
 
-    fscanf(stdin, "%s", file_name);
-    
-    int file_descriptor = open_file(file_name, O_RDONLY, 0);
+// Read data from file   
+     
+    int file_descriptor = open_file(argv[INPUT], O_RDONLY, 0);
     if (file_descriptor < 0) {
         fprintf(stderr, "main: File error\n");
         return 1;
@@ -73,18 +70,20 @@ main()
     quick_sort(on_ends, strings_number, cmp_reversed);
 
 //All work done, now write the answers
-    fscanf(stdin, "%s", file_name);
-    file_descriptor = open_file(file_name, O_TRUNC | O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+    file_descriptor = open_file(argv[OUTPUT], OUT_FLAGS, OUT_MODE);
 
     if (file_descriptor < 0) {
         fprintf(stderr, FILE_ERROR);
         close(file_descriptor);
         free(data);
+        free(on_beginnings);
+        free(on_ends);
         return 1;
     }
 
     write_data_to_file(file_descriptor, on_beginnings, strings_number, false);
     write_data_to_file(file_descriptor, on_ends, strings_number, true);
+    
     join_from_strings(data, data_size);
     if (write(file_descriptor, data, data_size) < 0) {
         fprintf(stderr, FILE_ERROR);
