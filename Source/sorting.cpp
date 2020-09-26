@@ -134,9 +134,12 @@ quick_sort_part(char **input_data, int first_elem, int second_elem, int (*cmp)(c
             second_elem--;
         }
     }
-    
-    quick_sort_part(input_data, bound_left, second_elem + 1, cmp);
-    quick_sort_part(input_data, first_elem, bound_right, cmp);
+    if (second_elem > bound_left) {
+        quick_sort_part(input_data, bound_left, second_elem + 1, cmp);
+    }
+    if (bound_right > first_elem + 1) {
+        quick_sort_part(input_data, first_elem, bound_right, cmp);
+    }
     return;
 }
 

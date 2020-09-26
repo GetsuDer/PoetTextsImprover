@@ -23,4 +23,4 @@ ObjectDir:
 test: improver
 	cd Testing; ./test_prog; cd ..
 clean:
-	rm -rf *.o ObjectFiles improver
+	rm -rf *.o ObjectFiles improver Testing/*.differences Testing/*.outtest
