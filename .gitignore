@@ -1,3 +1,5 @@
 *.o
 improver
-*.outtest
+*.outtest*
+Documentation/html/*
+Documentation/latex/*
