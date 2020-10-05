@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <cstdio>
 
-#include "../Include/parsing.h"
+#include "parsing.h"
 
 
 //! Symbols of punctuations, allowed in input text

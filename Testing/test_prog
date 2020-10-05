@@ -2,9 +2,11 @@
 
 for file in *.test
 do
-    ./../improver $file $file.outtest
+    ./../improver $file $file.outtest1 $file.outtest2 $file.outtest3
 
-    diff -E -Z -b -B $file.out $file.outtest > diffile
+    diff -E -Z -b -B -a $file.out1 $file.outtest1 > diffile
+    diff -E -Z -b -B -a $file.out2 $file.outtest2 > diffile
+    diff -E -Z -b -B -a $file.out3 $file.outtest3 > diffile
 
     if [ -s diffile ]
     then 

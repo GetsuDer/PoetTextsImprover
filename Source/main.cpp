@@ -8,16 +8,16 @@
 #include <errno.h>
 #include <ctype.h>
 
-#include "../Include/input.h"
-#include "../Include/sorting.h"
-#include "../Include/parsing.h"
-#include "../Include/main.h"
+#include "input.h"
+#include "sorting.h"
+#include "parsing.h"
+#include "main.h"
 
 int
 main(int argc, char **argv)
 {
     if (argc < ARGNUM) {
-        fprintf(stderr, "No input or output file\n");
+        fprintf(stderr, "No input or output files\n");
         return 1;
     }
 
@@ -70,7 +70,7 @@ main(int argc, char **argv)
     quick_sort(on_ends, strings_number, cmp_reversed);
 
 //All work done, now write the answers
-    file_descriptor = open_file(argv[OUTPUT], OUT_FLAGS, OUT_MODE);
+    file_descriptor = open_file(argv[OUTPUT1], OUT_FLAGS, OUT_MODE);
 
     if (file_descriptor < 0) {
         fprintf(stderr, FILE_ERROR);
@@ -82,17 +82,28 @@ main(int argc, char **argv)
     }
 
     write_data_to_file(file_descriptor, on_beginnings, strings_number, false);
+    close(file_descriptor);
+    free(on_beginnings);
+
+    file_descriptor = open_file(argv[OUTPUT2], OUT_FLAGS, OUT_MODE);
+    if (file_descriptor < 0) {
+        fprintf(stderr, FILE_ERROR);
+        close(file_descriptor);
+        free(data);
+        free(on_ends);
+        return 1;
+    }
     write_data_to_file(file_descriptor, on_ends, strings_number, true);
     
+    close(file_descriptor);
+    free(on_ends);
     join_from_strings(data, data_size);
-    if (write(file_descriptor, data, data_size) < 0) {
+    file_descriptor = open_file(argv[OUTPUT3], OUT_FLAGS, OUT_MODE);
+    if ((write(file_descriptor, data + 1, data_size - 2) < 0)) {
         fprintf(stderr, FILE_ERROR);
         return 1;
     }
-
     close(file_descriptor);
-    free(data);
-    free(on_beginnings);
-    free(on_ends);
+
     return 0;
 }

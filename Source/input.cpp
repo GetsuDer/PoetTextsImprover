@@ -6,7 +6,7 @@
 #include <cassert>
 #include <unistd.h>
 
-#include "../Include/input.h"
+#include "input.h"
 
 //! \brief Opens the file specified by file_name
 //! \param [in] file_name - the name of the file to open
@@ -87,10 +87,6 @@ write_data_to_file(int file_descriptor, char ** order, int strings_number, bool 
             fprintf(stderr, FILE_ERROR);
             return;
         }
-    }
-    if (write(file_descriptor, "\n", 1) < 0) {
-        fprintf(stderr, FILE_ERROR);
-        return;
     }
     return;
 }

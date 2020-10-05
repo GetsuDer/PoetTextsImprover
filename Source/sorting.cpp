@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <cstdio>
 
-#include "../Include/sorting.h"
+#include "sorting.h"
 
 //! \brief Moves pointer to the next alpha
 //! \param [in] str - String, pointer to which must be moved

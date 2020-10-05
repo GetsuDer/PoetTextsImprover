@@ -4,7 +4,7 @@ SOURCEDIR = Source/
 OBJECTDIR = ObjectFiles/
 
 CC = g++
-CFLAGS = -Wall -Wextra -Wfloat-equal -std=c++14 -g 
+CFLAGS = -Wall -Wextra -Wfloat-equal -std=c++14 -g -IInclude 
 
 .PHONY: all clean improver
 
