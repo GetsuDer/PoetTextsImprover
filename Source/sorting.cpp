@@ -37,14 +37,15 @@ cmp(char * string1, char * string2)
 {
     assert(string1);
     assert(string2);
-
+// find first good character to compare
     string1 = next_alpha(string1);
     string2 = next_alpha(string2);
 
+// while strings did not ended and symbols are the same
     while (*string1 && *string2 && tolower(*string1) == tolower(*string2)) {
         string1++;
         string1 = next_alpha(string1);
-
+// getting next good characters
         string2++;
         string2 = next_alpha(string2);
     }
@@ -74,10 +75,11 @@ cmp_reversed(char *string1, char *string2)
 {
     assert(string1);
     assert(string2);
-
+// find first elements to be compared
     string1 = previous_alpha(string1);
     string2 = previous_alpha(string2);
 
+// while strings did not ended and symbols are the same
     while (*string1 && string2 && tolower(*string1) == tolower(*string2)) {
         string1--;
         string1 = previous_alpha(string1);
